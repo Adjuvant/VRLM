@@ -1,19 +1,21 @@
 ﻿using UnityEngine;
 
-public class JogOnSpotMovement : MonoBehaviour {
-
+public class JogOnSpotMovement : MonoBehaviour
+{
     [Header("Headset Information", order = 1)]
     [Tooltip("Optionally insert SteamVR '[CameraRig]' here or allow the script to auto find the '[CameraRig]''.")]
-    public GameObject CameraRig;
-    [Tooltip("Optionally insert SteamVR 'Camera (head)' here or allow the script to auto find the 'Camera (head)'.")]
+    public GameObject cameraRig;
+    [Tooltip("Optionally insert SteamVR 'Camera (eye)' here or allow the script to auto find the 'Camera (eye)'.")]
     public Transform VRHeadset;
+    [Tooltip("Optionally insert a GameObject that is used to track the headset's movement.")]
+    public GameObject zeroTracker;
     [Tooltip("Insert left controller here.")]
     public ControllerEvents LcontrollerEvents;
     [Tooltip("Insert right controller here.")]
     public ControllerEvents RcontrollerEvents;
 
     [Header("Movement Settings", order = 2)]
-    [Tooltip("Threshold before movement is detected.")]
+    [Tooltip("Height threshold before movement is detected.")]
     [Range(1.0f, 5.0f)]
     public int headThreshold = 1;
     [Tooltip("Player movement Speed.")]
@@ -21,17 +23,16 @@ public class JogOnSpotMovement : MonoBehaviour {
     public float movementSpeed = 1.0f;
 
     private Vector3 walkingVector = Vector3.zero;
-    private GameObject zeroTracker;
-    private float VRheadThreshold;
+    private float VRHeadThreshold;
     private float VRmovementSpeed;
     private float playerHeight;
     private bool walkingSwitch;
 
     void Start ()
     {
-        if (CameraRig == null)
+        if (cameraRig == null)
         {
-            CameraRig = GameObject.Find("[CameraRig]");
+            cameraRig = GameObject.Find("[CameraRig]");
         }
 
         if (VRHeadset == null)
@@ -41,10 +42,10 @@ public class JogOnSpotMovement : MonoBehaviour {
 
         if (zeroTracker == null)
         {
-            zeroTracker = new GameObject("Floor Tracker");
+            zeroTracker = new GameObject("Zero Tracker");
         }
 
-        setTrackerObj();
+        setTrackerObj(zeroTracker);
         walkingSwitch = false;
         setMovementInformation();
     }
@@ -82,11 +83,10 @@ public class JogOnSpotMovement : MonoBehaviour {
         walkingSwitch = false;
     }
 
-    private void setTrackerObj()
+    private void setTrackerObj(GameObject trackingObject)
     {
-
-        zeroTracker.transform.parent = CameraRig.transform;
-        zeroTracker.transform.localPosition = new Vector3(0, 0, 0);
+        trackingObject.transform.parent = cameraRig.transform;
+        trackingObject.transform.localPosition = new Vector3(0, 0, 0);
     }
 
     public void setToggleWalking()
@@ -96,16 +96,14 @@ public class JogOnSpotMovement : MonoBehaviour {
 
     public void setMovementInformation()
     {
-        VRheadThreshold = (float) headThreshold / 1000;
+        VRHeadThreshold = (float) headThreshold / 1000;
         VRmovementSpeed = movementSpeed * 10;
-
-        Debug.Log(VRheadThreshold);
     }
     
     private void jogFinder()
     {
-        if(VRHeadset.position.y - zeroTracker.transform.position.y >= playerHeight + VRheadThreshold || 
-           VRHeadset.position.y - zeroTracker.transform.position.y <= playerHeight - VRheadThreshold)
+        if(VRHeadset.position.y - zeroTracker.transform.position.y >= playerHeight + VRHeadThreshold || 
+           VRHeadset.position.y - zeroTracker.transform.position.y <= playerHeight - VRHeadThreshold)
         {
             walkingVector.z = 10f;
             playerHeight = VRHeadset.position.y - zeroTracker.transform.position.y;
@@ -117,11 +115,11 @@ public class JogOnSpotMovement : MonoBehaviour {
         if(walkingSwitch)
         {
             Vector3 FBMovement = VRHeadset.forward * walkingVector.z * VRmovementSpeed * Time.deltaTime;
-            float Upheight = CameraRig.transform.position.y;
-            CameraRig.transform.position += (FBMovement * Time.deltaTime);
-            CameraRig.transform.position = new Vector3(CameraRig.transform.position.x,
+            float Upheight = cameraRig.transform.position.y;
+            cameraRig.transform.position += (FBMovement * Time.deltaTime);
+            cameraRig.transform.position = new Vector3(cameraRig.transform.position.x,
                                                        Upheight,
-                                                       CameraRig.transform.position.z);
+                                                       cameraRig.transform.position.z);
         }
     }
 }

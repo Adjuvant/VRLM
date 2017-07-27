@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class VRPlayerPresets : MonoBehaviour
 {
-
-    [Header("Preset Properties")]
-    public bool falling = false;
-
-    private Rigidbody VRrigidbody;
-    private CapsuleCollider PlayerCollider;
+    [Header("Headset Information", order = 1)]
+    [Tooltip("Optionally insert SteamVR 'Camera (eye)' here or allow the script to auto find the 'Camera (eye)'.")]
     public Transform VRHeadset; //Use the VRHeadSet's eye
 
-    public float headsetYOffset = 0.2f;
+    private CapsuleCollider PlayerCollider;
+    private float headsetYOffset = 0.2f;
+    private Rigidbody VRrigidbody;
+    private bool falling = false;
 
     void OnEnable()
     {

@@ -1,32 +1,41 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class ArmMovement : MonoBehaviour {
-
-    public GameObject CameraRig;
+public class ArmMovement : MonoBehaviour
+{
+    [Header("Headset Information", order = 1)]
+    [Tooltip("Optionally insert SteamVR '[CameraRig]' here or allow the script to auto find the '[CameraRig]''.")]
+    public GameObject cameraRig;
+    [Tooltip("Optionally insert SteamVR 'Camera (eye)' here or allow the script to auto find the 'Camera (eye)'.")]
     public Transform VRHeadset;
-    public Vector3 walkingVector = Vector3.zero;
+    [Tooltip("Insert left controller here.")]
     public Transform leftController;
+    [Tooltip("Insert right controller here.")]
     public Transform rightController;
+    [Tooltip("Insert left controller here.")]
     public ControllerEvents LcontrollerEvents;
+    [Tooltip("Insert right controller here.")]
     public ControllerEvents RcontrollerEvents;
-    public float swingThreshold = 0.01f;
 
+    [Header("Movement Settings", order = 2)]
+    [Tooltip("Controller threshold before movement is detected.")]
+    [Range(1, 5)]
+    public int swingThreshold = 1;
+    [Tooltip("Player movement Speed.")]
+    [Range(1.0f, 10.0f)]
+    public float movementSpeed = 1.0f;
+
+    private Vector3 walkingVector = Vector3.zero;
+    private float VRControllerThreshold;
     private float leftControllerHeight;
     private float rightControllerHeight;
     private float VRmovementSpeed;
     private bool walkingSwitch;
 
-    [Range(1.0f, 10.0f)]
-    public float movementSpeed = 1.0f;
-
-
     void Start ()
     {
-        if (CameraRig == null)
+        if (cameraRig == null)
         {
-            CameraRig = GameObject.Find("[CameraRig]");
+            cameraRig = GameObject.Find("[CameraRig]");
         }
 
         if (VRHeadset == null)
@@ -35,7 +44,7 @@ public class ArmMovement : MonoBehaviour {
         }
 
         walkingSwitch = false;
-        calculateMovementSpeed();
+        setMovementInformation();
     }
 
     void FixedUpdate ()
@@ -76,15 +85,16 @@ public class ArmMovement : MonoBehaviour {
         walkingSwitch = !walkingSwitch;
     }
 
-    private void calculateMovementSpeed()
+    public void setMovementInformation()
     {
+        VRControllerThreshold = (float) swingThreshold / 100;
         VRmovementSpeed = movementSpeed * 10;
     }
 
     private void armSwingFinder()
     {
-        if (rightController.position.y >= rightControllerHeight + swingThreshold || rightController.position.y <= rightControllerHeight - swingThreshold ||
-            leftController.position.y >= leftControllerHeight + swingThreshold || leftController.position.y <= leftControllerHeight - swingThreshold)
+        if (rightController.position.y >= rightControllerHeight + VRControllerThreshold || rightController.position.y <= rightControllerHeight - VRControllerThreshold ||
+            leftController.position.y >= leftControllerHeight + VRControllerThreshold || leftController.position.y <= leftControllerHeight - VRControllerThreshold)
         {
             walkingVector.z = 10f;
             rightControllerHeight = rightController.position.y;
@@ -97,11 +107,11 @@ public class ArmMovement : MonoBehaviour {
         if(walkingSwitch)
         {
             Vector3 FBMovement = VRHeadset.forward * walkingVector.z * VRmovementSpeed * Time.deltaTime;
-            float Upheight = CameraRig.transform.position.y;
-            CameraRig.transform.position += (FBMovement * Time.deltaTime);
-            CameraRig.transform.position = new Vector3(CameraRig.transform.position.x,
+            float Upheight = cameraRig.transform.position.y;
+            cameraRig.transform.position += (FBMovement * Time.deltaTime);
+            cameraRig.transform.position = new Vector3(cameraRig.transform.position.x,
                                                        Upheight,
-                                                       CameraRig.transform.position.z);
+                                                       cameraRig.transform.position.z);
         }
     }
 }
