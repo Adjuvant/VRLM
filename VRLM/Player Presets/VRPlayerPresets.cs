@@ -48,9 +48,9 @@ public class VRPlayerPresets : MonoBehaviour
 
     private void updatePresets()
     {
-        var playAreaHeightAdjustment = 0.009f;
-        var newColliderYSize = (VRHeadset.transform.localPosition.y - headsetYOffset);
-        var newColliderYCenter = (newColliderYSize != 0 ? (newColliderYSize / 2) + playAreaHeightAdjustment : 0);
+        float playAreaHeightAdjustment = 0.009f;
+        float newColliderYSize = (VRHeadset.transform.localPosition.y - headsetYOffset);
+        float newColliderYCenter = (newColliderYSize != 0 ? (newColliderYSize / 2) + playAreaHeightAdjustment : 0);
         
         if (PlayerCollider)
         {

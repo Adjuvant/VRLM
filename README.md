@@ -25,9 +25,9 @@ It's as simple as drag and drop the scripts onto the '[CameraRig]'.
 
 Certiantly you can, Just drop a message on the [issues section](https://github.com/Clavilux/VRLM/issues "VRLM Issues page") of this reposetory, I'm always looking for feedback.
 
-##Change Log
+## Change Log
 
-27/07/2017 v1.10 
+### 27/07/2017 v1.10 
 * All locomotion scripts are updated with relevant tool tips and titles. 
 * **Fix (JogOnSpotMovement)** Players would automatically move when on a slope due to the collider constantly pushing back the player from the slope, resulting in a difference in height that surpasses the threshold and adding movement to the `[CameraRig]`. We fixed this by tracking the Y distance between an empty `GameObject` (`zeroTracker`) placed at 0, 0, 0 locally inside the `[CameraRig]` instead of the headset’s Y movement in game. Developers can either assign a `GameObject` of their own or leave the field empty for the script to automatically assign one.
 * **Edit (LeanMovement)**  `CentreTracker` `GameObject` has been renamed to `zeroTracker` to fit a uniform.
