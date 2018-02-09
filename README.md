@@ -16,16 +16,20 @@ The research aimed to find ways to counter virtual reality using different way o
 
 ## How do I use it?
 
-It's as simple as drag and drop the scripts onto the '[CameraRig]'.
+It's as simple as drag and drop the scripts onto the `[CameraRig]`.
 
-1. Drag and drop the 'ControllerEvents' and 'VRPlayerPresets' into the '[CameraRig]'.
-2. Drag and drop your selected movement scrlipt into the '[CameraRig]' and assign all the relevant values required. Many can be left untouched, but it is mandatory to manually assign the '[CameraRig]''s left and right controllers to relative 'LcontrollerEvents' and 'RcontrollerEvents' or It will throw an error back at you.
+1. Drag and drop the `VRPlayerPresets` into the `[CameraRig]`.
+2. Drag and drop the `ControllerEvents` onto both controllers.
+3. Drag and drop your selected movement script into the `[CameraRig]`' and assign all the relevant values required. Many can be left untouched, but it is mandatory to manually assign the `[CameraRig]`'s left and right controllers to the relative `LcontrollerEvents` and `RcontrollerEvents` or It will throw an error back at you.
 
 ## Can I help or provide feedback?
 
 Certiantly you can, Just drop a message on the [issues section](https://github.com/Clavilux/VRLM/issues "VRLM Issues page") of this reposetory, I'm always looking for feedback.
 
 ## Change Log
+
+### 13/11/2017 V1.20
+* **Edit (README)** Fixed the mistake on the 'How do I use it' section.
 
 ### 27/07/2017 v1.10 
 * All locomotion scripts are updated with relevant tool tips and titles. 

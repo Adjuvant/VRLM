@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.Events;
 
 [RequireComponent(typeof(SteamVR_TrackedObject))]
 public class ControllerEvents : MonoBehaviour {
@@ -10,9 +9,6 @@ public class ControllerEvents : MonoBehaviour {
     }
 
     public delegate void ControllerInteractionEventHandler(object sender, ControllerInteractionEventArgs e);
-
-    [System.Serializable]
-    public class ControllerEvent : UnityEvent<ControllerInteractionEventArgs> { }
 
     public event ControllerInteractionEventHandler MenuPressed;
     public event ControllerInteractionEventHandler MenuReleased;
